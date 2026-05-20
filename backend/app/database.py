@@ -8,4 +8,8 @@ def get_session():
         yield session
 
 def create_db_and_tables():
+    # Import all models so SQLModel registers them
+    from app.models import (
+        Organization, User, Ticket, Message, ActivityLog
+    )
     SQLModel.metadata.create_all(engine)
