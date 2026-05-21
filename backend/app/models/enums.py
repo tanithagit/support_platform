@@ -1,4 +1,5 @@
 from enum import Enum
+import sqlalchemy as sa
 
 class UserRole(str, Enum):
     admin = "admin"

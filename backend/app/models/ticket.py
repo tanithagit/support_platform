@@ -2,6 +2,7 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 from datetime import datetime
 from app.models.enums import TicketStatus, TicketPriority
+import sqlalchemy as sa
 
 class Ticket(SQLModel, table=True):
     __tablename__ = "tickets"
@@ -9,10 +10,21 @@ class Ticket(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     subject: str
     description: str
-    status: TicketStatus = Field(default=TicketStatus.open)
-    priority: TicketPriority = Field(default=TicketPriority.medium)
+    status: TicketStatus = Field(
+        default=TicketStatus.open,
+        sa_column=sa.Column(
+            sa.Enum(TicketStatus, name="ticketstatus", create_type=False),
+            nullable=False
+        )
+    )
+    priority: TicketPriority = Field(
+        default=TicketPriority.medium,
+        sa_column=sa.Column(
+            sa.Enum(TicketPriority, name="ticketpriority", create_type=False),
+            nullable=False
+        )
+    )
 
-    # Foreign Keys
     organization_id: int = Field(foreign_key="organizations.id")
     customer_id: int = Field(foreign_key="users.id")
     assigned_to: Optional[int] = Field(

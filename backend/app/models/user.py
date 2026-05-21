@@ -2,6 +2,7 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 from datetime import datetime
 from app.models.enums import UserRole
+import sqlalchemy as sa
 
 class User(SQLModel, table=True):
     __tablename__ = "users"
@@ -10,7 +11,13 @@ class User(SQLModel, table=True):
     email: str = Field(unique=True, index=True)
     hashed_password: str
     full_name: str
-    role: UserRole = Field(default=UserRole.customer)
+    role: UserRole = Field(
+        default=UserRole.customer,
+        sa_column=sa.Column(
+            sa.Enum(UserRole, name="userrole", create_type=False),
+            nullable=False
+        )
+    )
     organization_id: Optional[int] = Field(
         default=None, foreign_key="organizations.id"
     )
