@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers.auth import router as auth_router
 from app.routers.organizations import router as org_router
 from app.routers.users import router as user_router
+from app.routers.tickets import router as ticket_router
 
 app = FastAPI(
     title="Support Platform API",
@@ -21,6 +22,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(org_router)
 app.include_router(user_router)
+app.include_router(ticket_router)
 
 @app.get("/")
 def root():
