@@ -25,7 +25,7 @@ export default function Login() {
       if (role === 'admin') navigate('/admin')
       else if (role === 'agent') navigate('/agent')
       else navigate('/customer')
-
+    
     } catch (err) {
       setError(err.response?.data?.detail || 'Login failed')
     } finally {
